@@ -1,0 +1,7 @@
+{
+  "name": "CMOC Civil-Military Information System",
+  "description": "A professional platform for civilian-military coordination projects in the Philippines, showcasing investment opportunities through interactive mapping and project tracking.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

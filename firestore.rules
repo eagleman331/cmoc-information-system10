@@ -1,0 +1,119 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required)
+    //   - email: string (required)
+    //   - displayName: string (optional)
+    //   - role: string (required, 'Admin' | 'Manager' | 'Encoder' | 'Guest')
+    //   - status: string (required, 'active' | 'inactive')
+    //   - lastActive: timestamp (required)
+    //
+    // Collection: projects
+    // Document ID: {projectId}
+    // Fields:
+    //   - title: string (required, 1-100 chars)
+    //   - description: string (required, 1-1000 chars)
+    //   - category: string (required)
+    //   - status: string (required, 'proposed' | 'ongoing' | 'completed' | 'postponed' | 'on hold')
+    //   - location: string (optional)
+    //   - coordinates: map (optional)
+    //   - updatedAt: timestamp (required)
+    //   - authorId: string (required)
+    //
+    // Collection: pending_approvals
+    // Document ID: {approvalId}
+    // Fields:
+    //   - type: string (required, 'CREATE_PROJECT' | 'UPDATE_PROJECT' | 'DELETE_PROJECT' | 'UPDATE_USER_ROLE' | 'CREATE_INVESTOR' | 'UPDATE_INVESTOR' | 'DELETE_INVESTOR')
+    //   - data: map (required)
+    //   - targetId: string (optional)
+    //   - status: string (required, 'pending' | 'approved' | 'rejected')
+    //   - requestedBy: string (required)
+    //   - requestedAt: timestamp (required)
+    //   - reviewedBy: string (optional)
+    //   - reviewedAt: timestamp (optional)
+    //   - requesterName: string (optional)
+    //   - targetName: string (optional)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['Admin', 'Manager']) ||
+         request.auth.token.email == "warrenching33@gmail.com");
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidProject(data) {
+      return data.keys().hasAll(['title', 'description', 'category', 'status']) &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 100 &&
+             data.description is string && data.description.size() > 0 && data.description.size() <= 1000 &&
+             data.category is string &&
+             data.status in ['proposed', 'ongoing', 'completed', 'postponed', 'on hold'];
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role']) &&
+             data.uid == request.auth.uid &&
+             isValidEmail(data.email) &&
+             data.role in ['Admin', 'Manager', 'Encoder', 'Guest'];
+    }
+
+    function isValidApproval(data) {
+      return data.keys().hasAll(['type', 'data', 'status', 'requestedBy', 'requestedAt']) &&
+             data.type in ['CREATE_PROJECT', 'UPDATE_PROJECT', 'DELETE_PROJECT', 'UPDATE_USER_ROLE', 'CREATE_INVESTOR', 'UPDATE_INVESTOR', 'DELETE_INVESTOR'] &&
+             data.status in ['pending', 'approved', 'rejected'] &&
+             data.requestedBy == request.auth.uid;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    match /projects/{projectId} {
+      allow read, write: if true;
+    }
+
+    match /investors/{investorId} {
+      allow read, write: if true;
+    }
+
+    match /pending_approvals/{approvalId} {
+      allow read, write: if true;
+    }
+
+    match /message_inquiries/{inquiryId} {
+      allow read, write: if true;
+    }
+
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}

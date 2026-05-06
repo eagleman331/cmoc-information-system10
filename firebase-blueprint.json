@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "Project": {
+      "title": "Project",
+      "description": "A civil affairs project or assessment.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string", "enum": ["proposed", "ongoing", "completed", "postponed", "on hold"] },
+        "location": { "type": "string" },
+        "coordinates": { 
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "authorId": { "type": "string" }
+      },
+      "required": ["title", "description", "category", "status"]
+    },
+    "User": {
+      "title": "User",
+      "description": "A user of the CMIMS portal.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["Admin", "Manager", "Encoder", "Guest"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "lastActive": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "PendingApproval": {
+      "title": "Pending Approval",
+      "description": "A change request that needs manager approval.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["CREATE_PROJECT", "UPDATE_PROJECT", "DELETE_PROJECT", "UPDATE_USER_ROLE", "CREATE_INVESTOR", "UPDATE_INVESTOR", "DELETE_INVESTOR"] },
+        "data": { "type": "object" },
+        "targetId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "requestedBy": { "type": "string" },
+        "requestedAt": { "type": "string", "format": "date-time" },
+        "reviewedBy": { "type": "string" },
+        "reviewedAt": { "type": "string", "format": "date-time" },
+        "requesterName": { "type": "string" },
+        "targetName": { "type": "string" }
+      },
+      "required": ["type", "data", "status", "requestedBy", "requestedAt"]
+    },
+    "Investor": {
+      "title": "Investor",
+      "description": "A private or public investor.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "image": { "type": "string" },
+        "background": { "type": "string" },
+        "totalInvested": { "type": "string" },
+        "projectsCount": { "type": "number" },
+        "status": { "type": "string", "enum": ["verified", "pending"] },
+        "sector": { "type": "string" },
+        "country": { "type": "string" },
+        "headOfCompany": { "type": "string" },
+        "headOfCompanyPhoto": { "type": "string" }
+      },
+      "required": ["name", "status", "sector", "country"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "An investment inquiry from a potential investor.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "country": { "type": "string" },
+        "organization": { "type": "string" },
+        "proposedContribution": { "type": "string" },
+        "projectId": { "type": "string" },
+        "projectTitle": { "type": "string" },
+        "status": { "type": "string", "enum": ["new", "read", "contacted"] },
+        "date": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "email", "country", "organization", "proposedContribution", "status", "date", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Collection of approved projects."
+    },
+    "/investors/{investorId}": {
+      "schema": "Investor",
+      "description": "Collection of verified investors."
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles and roles."
+    },
+    "/pending_approvals/{approvalId}": {
+      "schema": "PendingApproval",
+      "description": "Collection of change requests awaiting review."
+    },
+    "/message_inquiries/{inquiryId}": {
+      "schema": "Inquiry",
+      "description": "Collection of investment inquiries."
+    }
+  }
+}
