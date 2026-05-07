@@ -112,7 +112,7 @@ export const Navbar = () => {
               </Link>
             ))}
             
-            {user ? (
+            {/* {user ? (
               <div className="relative">
                 <button 
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
@@ -154,7 +154,7 @@ export const Navbar = () => {
               >
                 Login
               </button>
-            )}
+            )} */}
           </div>
 
           {/* Mobile Menu Toggle */}
