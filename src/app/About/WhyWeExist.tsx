@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import drrmoTraining from '@/src/assets/websiteImages/Trainings/drrmoTraining.jpg'
 
 export const WhyWeExist = () => {
   return (
@@ -37,7 +38,7 @@ export const WhyWeExist = () => {
         <div className="relative">
           <div className="aspect-square rounded-[3rem] overflow-hidden shadow-2xl">
             <img 
-              src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=800" 
+              src={drrmoTraining} 
               alt="Strategic Operations" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Globe, Building2, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import {sevenCrgSlides} from '@/src/assets/Data/sevenCrgpics'
 
 const HERO_IMAGES = [
   "https://picsum.photos/seed/philippines-dev-1/800/600",
@@ -16,7 +17,7 @@ export const DashboardHero = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % HERO_IMAGES.length);
+      setCurrentImage((prev) => (prev + 1) % sevenCrgSlides.length);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
@@ -61,7 +62,7 @@ export const DashboardHero = () => {
               <AnimatePresence mode="wait">
                 <motion.img 
                   key={currentImage}
-                  src={HERO_IMAGES[currentImage]} 
+                  src={sevenCrgSlides[currentImage].image} 
                   alt={`Development Project ${currentImage + 1}`} 
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -75,7 +76,7 @@ export const DashboardHero = () => {
             
             {/* Indicators */}
             <div className="absolute bottom-6 right-6 flex gap-2 z-10">
-              {HERO_IMAGES.map((_, i) => (
+              {sevenCrgSlides.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentImage(i)}

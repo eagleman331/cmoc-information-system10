@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import {dashboardSlides} from '@/src/assets/Data/dashboardSlides'
 
 const HERO_IMAGES = [
   {
@@ -29,7 +30,7 @@ export const AboutHero = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % HERO_IMAGES.length);
+      setCurrentImage((prev) => (prev + 1) % dashboardSlides.length);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
@@ -66,8 +67,8 @@ export const AboutHero = () => {
               <AnimatePresence mode="wait">
                 <motion.img 
                   key={currentImage}
-                  src={HERO_IMAGES[currentImage].url} 
-                  alt={HERO_IMAGES[currentImage].caption} 
+                  src={dashboardSlides[currentImage].image} 
+                  alt={dashboardSlides[currentImage].caption} 
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
@@ -79,7 +80,7 @@ export const AboutHero = () => {
               
               {/* Indicators */}
               <div className="absolute bottom-4 right-4 flex gap-2 z-10">
-                {HERO_IMAGES.map((_, i) => (
+                {dashboardSlides.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrentImage(i)}
@@ -97,7 +98,7 @@ export const AboutHero = () => {
               animate={{ opacity: 1, y: 0 }}
               className="absolute -bottom-4 -left-4 bg-emerald-600 text-white px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-lg z-10"
             >
-              {HERO_IMAGES[currentImage].caption}
+              {dashboardSlides[currentImage].caption}
             </motion.div>
           </motion.div>
         </div>
