@@ -29,7 +29,7 @@ export default function App() {
         <Route path="/project/:id" element={<ProjectDetail />} />
         <Route path="/project/:id/prospectus" element={<ProspectusPage />} />
         <Route path="/prospectus" element={<ProspectusSelection />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        {/* <Route path="/admin" element={<AdminDashboard />} /> */}
       </Routes>
     </div>
   );

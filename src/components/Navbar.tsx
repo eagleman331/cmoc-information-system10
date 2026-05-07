@@ -86,7 +86,7 @@ export const Navbar = () => {
     { to: '/about', label: 'About Us' },
     { to: '/framework', label: 'Framework' },
     { to: '/faq', label: 'FAQ' },
-    { to: '/admin', label: 'Admin' },
+    // { to: '/admin', label: 'Admin' },
   ];
 
   return (
