@@ -2,29 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {dashboardSlides} from '@/src/assets/Data/dashboardSlides'
 
-const HERO_IMAGES = [
-  {
-    url: "https://images.unsplash.com/photo-1523292562811-8fa7962a78c8?auto=format&fit=crop&q=80&w=1200",
-    caption: "Activation Ceremony"
-  },
-  {
-    url: "https://images.unsplash.com/photo-1541339907198-e08756eaa589?auto=format&fit=crop&q=80&w=1200",
-    caption: "Community Support"
-  },
-  {
-    url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=1200",
-    caption: "Strategic Planning"
-  },
-  {
-    url: "https://images.unsplash.com/photo-1504150559433-c4a5e36b105c?auto=format&fit=crop&q=80&w=1200",
-    caption: "Field Operations"
-  },
-  {
-    url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1200",
-    caption: "Civilian Collaboration"
-  }
-];
-
 export const AboutHero = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
