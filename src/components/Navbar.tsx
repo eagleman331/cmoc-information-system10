@@ -191,7 +191,7 @@ export const Navbar = () => {
                     {link.label}
                   </Link>
                 ))}
-                <div className="pt-2 border-t border-slate-100">
+                {/* <div className="pt-2 border-t border-slate-100">
                   {user ? (
                     <button 
                       onClick={handleLogout}
@@ -208,7 +208,7 @@ export const Navbar = () => {
                       Login
                     </button>
                   )}
-                </div>
+                </div> */}
               </div>
             </motion.div>
           )}
